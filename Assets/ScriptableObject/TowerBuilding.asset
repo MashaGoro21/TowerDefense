@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be4924aace2f8a44ba6060c39e6d1dc2, type: 3}
+  m_Name: TowerBuilding
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBuildingConfig
+  minDistanceFromCastle: 2
+  minDistanceBetweenTowers: 2
+  availableTowers:
+  - {fileID: 11400000, guid: ef2f4db0ec431814083cc967f370db43, type: 2}
+  - {fileID: 11400000, guid: eb42b7d4ecc01dd4ab8212816c97fdcd, type: 2}

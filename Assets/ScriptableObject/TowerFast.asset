@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933adcc84018a8746abbafc2351e5bee, type: 3}
+  m_Name: TowerFast
+  m_EditorClassIdentifier: Assembly-CSharp::TowerConfig
+  towerName: Tower Fast
+  prefab: {fileID: 2500546093256259163, guid: 103e683d7d6d20f4a9c1480560f00330, type: 3}
+  preview: {fileID: -2194017329755109241, guid: 13542ccbe01240749926dec084f150f6, type: 3}
+  price: 50
+  attackRange: 5
+  attackInterval: 0.5
+  attackDamage: 5
