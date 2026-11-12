@@ -1,50 +1,65 @@
+using Models;
+using System;
 using UnityEngine;
 
 namespace Castle
 {
     public class CastleHealth : MonoBehaviour
     {
-        public float MaxHealth { get; private set; }
-        public float CurrentHealth { get; private set; }
-        public bool IsDestroyed { get; private set; }
+        public event Action OnHealthChanged;
+        public event Action OnDestroyed;
+
+        public float MaxHealth => _healthModel.MaxHealth;
+        public float CurrentHealth => _healthModel.CurrentHealth;
+        public bool IsDestroyed => _healthModel.IsDead;
         
         [SerializeField] private GameObject _castleHitEffect;
-        [SerializeField] private UI.GameOverManager _gameOverManager;
         [SerializeField] private float _castleHitEffectLifetime = 2f;
         [SerializeField] private Config.CastleConfig _config;
 
-        private void Start()
-        {
-            if (_config == null) return;
+        private HealthModel _healthModel;
 
-            MaxHealth = _config.Health;
-            CurrentHealth = MaxHealth;
+        private void Awake()
+        {
+            _healthModel = new HealthModel(_config.Health);
+
+            _healthModel.OnHealthChanged += HandleHealthChanged;
+            _healthModel.OnDied += HandleDestroyed;
+
+        }
+
+        private void OnDestroy()
+        {
+            _healthModel.OnHealthChanged -= HandleHealthChanged;
+            _healthModel.OnDied -= HandleDestroyed;
         }
 
         public void TakeDamage(float damage)
         {
-            if (IsDestroyed) return;
+            if (IsDestroyed || damage <= 0f) return;
 
-            CurrentHealth = CurrentHealth - damage;
+            _healthModel.TakeDamage(damage);
 
             if (_castleHitEffect != null)
             {
                 GameObject effect = Instantiate(_castleHitEffect, transform.position, Quaternion.identity);
                 Destroy(effect, _castleHitEffectLifetime);
             }
-
-            if (CurrentHealth <= 0f)
-            {
-                IsDestroyed = true;
-                if (_gameOverManager != null)
-                    _gameOverManager.ShowGameOver();
-            }
         }
 
         public void UpgradeHealth(float amount)
         {
-            MaxHealth += amount;
-            CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
+            _healthModel.IncreaseMaxHealth(amount);
+        }
+
+        private void HandleHealthChanged()
+        {
+            OnHealthChanged?.Invoke();
+        }
+
+        private void HandleDestroyed()
+        {
+            OnDestroyed?.Invoke();
         }
     }
 }

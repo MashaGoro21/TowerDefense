@@ -1,12 +1,13 @@
 using UnityEngine;
+using Models;
 
 namespace Castle
 {
     [RequireComponent(typeof(CastleHealth))]
     public class Castle : MonoBehaviour
     {
-        public float AttackInterval { get; private set; }
-        public float AttackDamage { get; private set; }
+        public float AttackInterval => _attackModel.AttackInterval;
+        public float AttackDamage => _attackModel.AttackDamage;
         
         [SerializeField] private Config.CastleConfig _config;
         [SerializeField] private GameObject _shootEffect;
@@ -18,15 +19,12 @@ namespace Castle
         private float _attackTimer;
         private Enemies.Enemy _currentTarget;
         private CastleHealth _castleHealth;
+        private CastleAttackModel _attackModel;
 
-        private void Start()
+        private void Awake()
         {
-            if (_config == null) return;
-
             _castleHealth = GetComponent<CastleHealth>();
-
-            AttackInterval = _config.AttackInterval;
-            AttackDamage = _config.AttackDamage;
+            _attackModel = new CastleAttackModel(_config.AttackDamage, _config.AttackInterval, _minAttackInterval);
         }
 
         private void Update()
@@ -46,12 +44,12 @@ namespace Castle
 
         public void UpgradeAttackSpeed(float amount)
         {
-            AttackInterval = Mathf.Max(_minAttackInterval, AttackInterval - amount);
+            _attackModel.UpgradeAttackSpeed(amount);
         }
 
         public void UpgradeDamage(float amount)
         {
-            AttackDamage += amount;
+            _attackModel.UpgradeDamage(amount);
         }
 
         private void FindNearestEnemy()

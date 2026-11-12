@@ -151,10 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb07af36ca4ed949a5cc3d66087f5e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuUI
-  moneyText: {fileID: 1952322916}
-  gameSceneName: Game
-  bank: {fileID: 785408031}
-  startGameButton: {fileID: 167185665}
+  _moneyText: {fileID: 1952322916}
+  _gameSceneName: Game
+  _bank: {fileID: 785408031}
+  _startGameButton: {fileID: 167185665}
 --- !u!114 &73030481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,19 +320,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 167185666}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 73030480}
-        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &167185666
 MonoBehaviour:
   m_ObjectHideFlags: 0

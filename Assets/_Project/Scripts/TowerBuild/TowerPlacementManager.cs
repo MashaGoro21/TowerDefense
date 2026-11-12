@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System;
 
@@ -15,7 +13,6 @@ namespace Towers
         [SerializeField] private Enemies.EnemyRegistry _enemyRegistry;
         [SerializeField] private Transform _castle;
         [SerializeField] private Economy.Bank _bank;
-        [SerializeField] private float _maxRaycastDistance = 500f;
 
         private Vector3 _selectedPosition;
         private List<TowerAttack> _towers = new List<TowerAttack>();
@@ -28,7 +25,7 @@ namespace Towers
             Config.TowerConfig config = _buildingConfig.AvailableTowers[towerIndex];
 
             if (!IsValidPosition(_selectedPosition)) return;
-            if (!_bank.SpendMoney(config.Price)) return;
+            if (!_bank.CanAfford(config.Price)) return;
 
             GameObject tower = Instantiate(config.Prefab, _selectedPosition, Quaternion.identity);
             TowerAttack towerAttack = tower.GetComponent<TowerAttack>();
@@ -36,6 +33,7 @@ namespace Towers
             towerAttack.SetConfig(config);
 
             _towers.Add(towerAttack);
+            _bank.SpendMoney(config.Price);
 
             OnTowerBuilt?.Invoke();
         }

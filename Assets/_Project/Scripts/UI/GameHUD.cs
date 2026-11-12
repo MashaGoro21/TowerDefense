@@ -15,19 +15,34 @@ namespace UI
         [SerializeField] private Economy.Bank _bank;
         [SerializeField] private Castle.CastleHealth _castleHealth;
 
+        private void Awake()
+        {
+            _waveManager.OnWaveChanged += UpdateWave;
+            _waveManager.OnEnemiesChanged += UpdateEnemies;
+            _waveManager.OnNextWaveTimerChanged += UpdateNextWaveTimer;
+            _bank.OnMoneyChanged += UpdateMoney;
+            _castleHealth.OnHealthChanged += UpdateCastleHP;
+        }
+
         private void Start()
         {
             if (_nextWavePanel != null)
                 _nextWavePanel.SetActive(false);
-        }
 
-        private void Update()
-        {
             UpdateWave();
             UpdateEnemies();
             UpdateMoney();
             UpdateCastleHP();
             UpdateNextWaveTimer();
+        }
+
+        private void OnDestroy()
+        {
+            _waveManager.OnWaveChanged -= UpdateWave;
+            _waveManager.OnEnemiesChanged -= UpdateEnemies;
+            _waveManager.OnNextWaveTimerChanged -= UpdateNextWaveTimer;
+            _bank.OnMoneyChanged -= UpdateMoney;
+            _castleHealth.OnHealthChanged -= UpdateCastleHP;
         }
 
         private void UpdateWave()

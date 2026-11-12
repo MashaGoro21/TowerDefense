@@ -1,38 +1,54 @@
+using System;
+using Models;
 using UnityEngine;
 
 namespace Economy
 {
     public class Bank : MonoBehaviour
     {
-        public int Money { get; private set; }
+        private const string MONEY_SAVE_KEY = "Money";
+
+        public event Action OnMoneyChanged;
+
+        public int Money => _model.Money;
+
+        private BankModel _model;
 
         private void Awake()
         {
-            Money = PlayerPrefs.GetInt("Money", 0);
+            int savedMoney = PlayerPrefs.GetInt(MONEY_SAVE_KEY, 0);
+
+            _model = new BankModel(savedMoney);
+            _model.OnMoneyChanged += HandleMoneyChanged;
+        }
+
+        private void OnDestroy()
+        {
+            _model.OnMoneyChanged -= HandleMoneyChanged;
+        }
+
+        public bool CanAfford(int amount)
+        {
+            return _model.CanAfford(amount);
         }
 
         public void AddMoney(int amount)
         {
-            if (amount <= 0) return;
-            Money += amount;
-
-            SaveMoney();
+            _model.AddMoney(amount);
         }
 
-        public bool SpendMoney(int amount)
+        public void SpendMoney(int amount)
         {
-            if (amount <= 0 || Money < amount) return false;
-
-            Money -= amount;
-            SaveMoney();
-
-            return true;
+            _model.SpendMoney(amount);
         }
 
-        private void SaveMoney()
+
+        private void HandleMoneyChanged()
         {
-            PlayerPrefs.SetInt("Money", Money);
+            PlayerPrefs.SetInt("Money", _model.Money);
             PlayerPrefs.Save();
+
+            OnMoneyChanged?.Invoke();
         }
     }
 }

@@ -1,4 +1,4 @@
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,18 +10,14 @@ namespace UI
         [SerializeField] private GameObject _panel;
         [SerializeField] private Towers.TowerPlacementManager _placementManager;
         [SerializeField] private Config.TowerBuildingConfig _buildingConfig;
-        [SerializeField] private Image _fastTowerPreview;
-        [SerializeField] private TMP_Text _fastTowerText;
-        [SerializeField] private Button _fastTowerButton;
-        [SerializeField] private Image _heavyTowerPreview;
-        [SerializeField] private TMP_Text _heavyTowerText;
-        [SerializeField] private Button _heavyTowerButton;
+        [SerializeField] private TowerBuildButton _towerButtonPrefab;
+        [SerializeField] private Transform _buttonsContainer;
         [SerializeField] private Button _closePanelButton;
+
+        private readonly List<TowerBuildButton> _towerButtons = new();
 
         private void Awake()
         {
-            _fastTowerButton.onClick.AddListener(BuildFastTower);
-            _heavyTowerButton.onClick.AddListener(BuildHeavyTower);
             _closePanelButton.onClick.AddListener(ClosePanel);
 
             _placementManager.OnBuildPositionSelected += OpenPanel;
@@ -30,23 +26,16 @@ namespace UI
 
         private void Start()
         {
+            CreateTowerButtons();
             ClosePanel();
-            Refresh();
         }
 
         private void OnDestroy()
         {
-            _fastTowerButton.onClick.RemoveListener(BuildFastTower);
-            _heavyTowerButton.onClick.RemoveListener(BuildHeavyTower);
             _closePanelButton.onClick.RemoveListener(ClosePanel);
 
             _placementManager.OnBuildPositionSelected -= OpenPanel;
             _placementManager.OnTowerBuilt -= ClosePanel;
-        }
-
-        private void Update()
-        {
-            if (_panel != null && _panel.activeSelf) Refresh();
         }
 
         public void OpenPanel()
@@ -60,42 +49,33 @@ namespace UI
             _panel.SetActive(false);
         }
 
-        public void BuildFastTower()
+        private void CreateTowerButtons()
         {
-            _placementManager.BuildTower(0);
-            Refresh();
+            Config.TowerConfig[] towers = _buildingConfig.AvailableTowers;
+
+            for(int index = 0; index < towers.Length; index++)
+            {
+                TowerBuildButton button = Instantiate(_towerButtonPrefab, _buttonsContainer);
+                button.Initialize(towers[index], index, BuildTower);
+                _towerButtons.Add(button);
+            }
         }
 
-        public void BuildHeavyTower()
+        private void BuildTower(int towerIndex)
         {
-            _placementManager.BuildTower(1);
+            _placementManager.BuildTower(towerIndex);
             Refresh();
         }
 
         private void Refresh()
         {
-            if (_buildingConfig == null) return;
-
             Config.TowerConfig[] towers = _buildingConfig.AvailableTowers;
 
-            UpdateTowerButton(towers[0], _fastTowerPreview, _fastTowerText, _fastTowerButton);
-            UpdateTowerButton(towers[1], _heavyTowerPreview, _heavyTowerText, _heavyTowerButton);
-        }
-
-        private void UpdateTowerButton(
-            Config.TowerConfig config,
-            Image preview,
-            TMP_Text towerText,
-            Button button)
-        {
-            bool canAfford = _bank.Money >= config.Price;
-
-            if (preview != null) preview.sprite = config.Preview;
-
-            if (towerText != null)
-                towerText.text = $"{config.TowerName} - {config.Price} price";
-
-            if (button != null) button.interactable = canAfford;
+            for(int index = 0; index < _towerButtons.Count; index++)
+            {
+                bool canAfford = _bank.CanAfford(towers[index].Price);
+                _towerButtons[index].Refresh(canAfford);
+            }
         }
     }
 }

@@ -106,7 +106,7 @@ namespace UI
             int cost,
             string upgradeName)
         {
-            bool canAfford = _bank.Money >= cost;
+            bool canAfford = _bank.CanAfford(cost);
             button.interactable = canUpgrade && canAfford;
 
             if (!canUpgrade)

@@ -9,10 +9,5 @@ namespace Config
         public int BaseCost = 20;
         public float CostMultiplier = 1.5f;
         public float ValuePerLevel = 10f;
-
-        public int GetCost(int currentLevel)
-        {
-            return Mathf.CeilToInt(BaseCost * Mathf.Pow(CostMultiplier, currentLevel));
-        }
     }
 }

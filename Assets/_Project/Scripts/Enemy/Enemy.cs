@@ -1,4 +1,5 @@
 using System;
+using Models;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,11 +8,15 @@ namespace Enemies
     [RequireComponent(typeof(NavMeshAgent))]
     public class Enemy : MonoBehaviour
     {
+        private const string WALKING_PARAMETER = "IsWalking";
+        private const string ATTACKING_PARAMETER = "IsAttacking";
+        private const string DEATH_PARAMETER = "Die";
+
         public event Action<Enemy> OnDied;
-        
-        public bool IsDead { get; private set; }
-        
-        [SerializeField] private float _health = 100f;
+
+        public bool IsDead => _healthModel.IsDead;
+
+        [SerializeField] private float _maxHealth = 100f;
         [SerializeField] private float _attackDamage = 10f;
         [SerializeField] private float _attackInterval = 1.5f;
         [SerializeField] private float _attackDistance = 1f;
@@ -26,6 +31,13 @@ namespace Enemies
         private NavMeshAgent _agent;
         private Transform _castleTarget;
         private Castle.CastleHealth _castleHealth;
+        private HealthModel _healthModel;
+
+        private void Awake()
+        {
+            _healthModel = new HealthModel(_maxHealth);
+            _healthModel.OnDied += Die;
+        }
 
         private void Start()
         {
@@ -34,6 +46,11 @@ namespace Enemies
             _agent.SetDestination(_castleTarget.position);
 
             animator = GetComponentInChildren<Animator>();
+        }
+
+        private void OnDestroy()
+        {
+            _healthModel.OnDied -= Die;
         }
 
         private void Update()
@@ -45,8 +62,8 @@ namespace Enemies
             {
                 _agent.isStopped = true;
 
-                animator.SetBool("IsWalking", false);
-                animator.SetBool("IsAttacking", true);
+                animator.SetBool(WALKING_PARAMETER, false);
+                animator.SetBool(ATTACKING_PARAMETER, true);
 
                 _attackTimer += Time.deltaTime;
 
@@ -61,8 +78,8 @@ namespace Enemies
                 _agent.isStopped = false;
                 _agent.SetDestination(_castleTarget.position);
 
-                animator.SetBool("IsWalking", true);
-                animator.SetBool("IsAttacking", false);
+                animator.SetBool(WALKING_PARAMETER, true);
+                animator.SetBool(ATTACKING_PARAMETER, false);
 
                 _attackTimer = 0f;
             }
@@ -77,18 +94,15 @@ namespace Enemies
 
         public void TakeDamage(float damage)
         {
-            if (IsDead) return;
+            if (IsDead || damage <= 0f) return;
 
-            _health -= damage;
+            _healthModel.TakeDamage(damage);
 
             if (_enemyHitEffect != null)
             {
                 GameObject effect = Instantiate(_enemyHitEffect, transform.position, Quaternion.identity);
                 Destroy(effect, _enemyHitEffectLifetime);
             }
-
-            if (_health <= 0f)
-                Die();
         }
 
         private void AttackCastle()
@@ -98,7 +112,6 @@ namespace Enemies
 
         private void Die()
         {
-            IsDead = true;
             _agent.isStopped = true;
             _agent.ResetPath();
 
@@ -106,9 +119,9 @@ namespace Enemies
 
             _bank.AddMoney(_coinReward);
 
-            animator.SetBool("IsWalking", false);
-            animator.SetBool("IsAttacking", false);
-            animator.SetTrigger("Die");
+            animator.SetBool(WALKING_PARAMETER, false);
+            animator.SetBool(ATTACKING_PARAMETER, false);
+            animator.SetTrigger(DEATH_PARAMETER);
 
             Destroy(gameObject, _deathDestroyDelay);
         }
