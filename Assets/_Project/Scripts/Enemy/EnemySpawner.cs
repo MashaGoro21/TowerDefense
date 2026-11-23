@@ -1,4 +1,4 @@
-using Enemies;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -7,14 +7,16 @@ namespace Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
+        public event Action<Enemy> OnEnemySpawned;
+
         [SerializeField] private GameObject _enemyPrefab;
         [SerializeField] private Transform[] _spawnPoints;
-        [SerializeField] private Economy.Bank _bank;
         [SerializeField] private EnemyRegistry _enemyRegistry;
         [SerializeField] private Castle.CastleHealth _castleHealth;
         [SerializeField] private Transform _castleTarget;
         [SerializeField] private float _spawnValidationStep = 0.25f;
         [SerializeField] private float _maxSpawnOffset = 0.1f;
+        [SerializeField] private GameSession.GameSessionManager _gameSessionManager;
 
         public Enemy SpawnEnemy()
         {
@@ -26,12 +28,13 @@ namespace Enemies
             Vector3 position = Vector3.Lerp(pointA.position, pointB.position, Random.value);
 
             if (!NavMesh.SamplePosition(position, out NavMeshHit hit, _maxSpawnOffset, NavMesh.AllAreas))
-                throw new System.InvalidOperationException("Enemy spawn position is outside NavMesh.");
+                throw new InvalidOperationException("Enemy spawn position is outside NavMesh.");
 
             GameObject enemyObject = Instantiate(_enemyPrefab, hit.position, Quaternion.identity);
             Enemy enemy = enemyObject.GetComponent<Enemy>();
-            enemy.Initialize(_bank, _castleHealth, _castleTarget);
+            enemy.Initialize(_castleHealth, _castleTarget, _gameSessionManager);
             _enemyRegistry.RegisterEnemy(enemy);
+            OnEnemySpawned?.Invoke(enemy);
 
             return enemy;
         }

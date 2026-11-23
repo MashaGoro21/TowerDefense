@@ -7,13 +7,12 @@ namespace UI
 {
     public class TowerBuildButton : MonoBehaviour
     {
-        private Action<int> OnTowerSelected;
+        public Action<int> OnTowerSelected;
         
         [SerializeField] private Image _preview;
         [SerializeField] private TMP_Text _towerText;
         [SerializeField] private Button _button;
 
-        private Config.TowerConfig _config;
         private int _towerIndex;
 
         private void Awake()
@@ -26,19 +25,16 @@ namespace UI
             _button.onClick.RemoveListener(HandleClick);
         }
 
-        public void Initialize(Config.TowerConfig config, int towerIndex, Action<int> onTowerSelected)
+        public void Initialize(Sprite preview, string text, int towerIndex)
         {
-            _config = config;
             _towerIndex = towerIndex;
-            OnTowerSelected = onTowerSelected;
-
-            _preview.sprite = _config.Preview;
-            _towerText.text = $"{_config.TowerName} - {_config.Price} price";
+            _preview.sprite = preview;
+            _towerText.text = text;
         }   
         
-        public void Refresh(bool canAfford)
+        public void SetInteractable(bool interactable)
         {
-            _button.interactable = canAfford;
+            _button.interactable = interactable;
         }
 
         private void HandleClick()

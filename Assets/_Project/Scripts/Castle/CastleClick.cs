@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace Castle
 {
     public class CastleClick : MonoBehaviour
     {
-        [SerializeField] private UI.CastleUpgradeUI _upgradeUI;
+        public event Action OnCastleClicked;
 
         public void HandleClick()
         {
-            _upgradeUI.OpenPanel();
+            OnCastleClicked?.Invoke();
         }
     }
 }

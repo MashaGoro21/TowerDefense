@@ -12,10 +12,11 @@ namespace Towers
         private float _attackTimer;
         private Enemies.Enemy _currentTarget;
         private Enemies.EnemyRegistry _enemyRegistry;
+        private bool _isPaused;
 
         private void Update()
         {
-            if (_config == null) return;
+            if (_config == null || _isPaused) return;
 
             FindNearestEnemy();
 
@@ -39,6 +40,12 @@ namespace Towers
         public void SetEnemyRegistry(Enemies.EnemyRegistry registry)
         {
             _enemyRegistry = registry;
+        }
+
+        public void StopAttack()
+        {
+            _isPaused = true;
+            _currentTarget = null;
         }
 
         private void FindNearestEnemy()

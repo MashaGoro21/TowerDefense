@@ -22,7 +22,7 @@ namespace Models
             _damageMaxLevel = damageMaxLevel;
         }
 
-        public static int CalculateCost(int baseCost, float costMultiplier, int currentLevel)
+        public int CalculateCost(int baseCost, float costMultiplier, int currentLevel)
         {
             if (baseCost < 0 || costMultiplier < 1f || currentLevel < 0)
                 throw new ArgumentOutOfRangeException("Invalid upgrade cost parameters.");

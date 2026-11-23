@@ -16,16 +16,18 @@ namespace Towers
 
         private Vector3 _selectedPosition;
         private List<TowerAttack> _towers = new List<TowerAttack>();
+        private bool _hasSelectedPosition;
+        private bool _isPaused;
 
         public void BuildTower(int towerIndex)
         {
-            if (_buildingConfig == null) return;
+            if (_buildingConfig == null || !_hasSelectedPosition || _isPaused) return;
             if (towerIndex < 0 || towerIndex >= _buildingConfig.AvailableTowers.Length) return;
 
             Config.TowerConfig config = _buildingConfig.AvailableTowers[towerIndex];
 
             if (!IsValidPosition(_selectedPosition)) return;
-            if (!_bank.CanAfford(config.Price)) return;
+            if (!_bank.SpendMoney(config.Price)) return;
 
             GameObject tower = Instantiate(config.Prefab, _selectedPosition, Quaternion.identity);
             TowerAttack towerAttack = tower.GetComponent<TowerAttack>();
@@ -33,17 +35,38 @@ namespace Towers
             towerAttack.SetConfig(config);
 
             _towers.Add(towerAttack);
-            _bank.SpendMoney(config.Price);
 
+            _hasSelectedPosition = false;
             OnTowerBuilt?.Invoke();
         }
 
         public void TrySelectGroundPosition(Vector3 position)
         {
-            if (!IsValidPosition(position)) return;
+            if (!IsValidPosition(position) || _isPaused) return;
 
             _selectedPosition = position;
+            _hasSelectedPosition = true;
+
             OnBuildPositionSelected?.Invoke();
+        }
+
+        public void StopAllTowers()
+        {
+            foreach(TowerAttack tower in _towers)
+            {
+                if (tower != null) tower.StopAttack();
+            }
+        }
+
+        public void StopPlacement()
+        {
+            _isPaused = true;
+            CancelPlacement();
+        }
+
+        public void CancelPlacement()
+        {
+            _hasSelectedPosition = false;
         }
 
         private bool IsValidPosition(Vector3 position)

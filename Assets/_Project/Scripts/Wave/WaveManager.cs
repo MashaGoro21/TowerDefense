@@ -52,6 +52,14 @@ namespace Enemies
             OnEnemiesChanged?.Invoke();
         }
 
+        public void StopWaves()
+        {
+            StopAllCoroutines();
+            IsBetweenWaves = false;
+            TimeUntilNextWave = 0f;
+            OnNextWaveTimerChanged?.Invoke();
+        }
+
         private IEnumerator PlayWaves()
         {
             for (int i = 0; i < _model.TotalWaves; i++)

@@ -20,18 +20,18 @@ namespace Enemies
         [SerializeField] private float _attackDamage = 10f;
         [SerializeField] private float _attackInterval = 1.5f;
         [SerializeField] private float _attackDistance = 1f;
-        [SerializeField] private int _coinReward = 20;
         [SerializeField] private GameObject _enemyHitEffect;
         [SerializeField] private float _enemyHitEffectLifetime = 2f;
         [SerializeField] private float _deathDestroyDelay = 2f;
 
+        private GameSession.GameSessionManager _gameSessionManager;
         private Animator animator;
-        private Economy.Bank _bank;
         private float _attackTimer;
         private NavMeshAgent _agent;
         private Transform _castleTarget;
         private Castle.CastleHealth _castleHealth;
         private HealthModel _healthModel;
+        private bool _isPaused;
 
         private void Awake()
         {
@@ -42,20 +42,30 @@ namespace Enemies
         private void Start()
         {
             _agent = GetComponent<NavMeshAgent>();
+            animator = GetComponentInChildren<Animator>();
+            
             _agent.stoppingDistance = _attackDistance;
+
+            _gameSessionManager.OnGameOver += HandleGameOver;
+            if(_gameSessionManager.IsGameOver)
+            {
+                HandleGameOver();
+                return;
+            }
+
             _agent.SetDestination(_castleTarget.position);
 
-            animator = GetComponentInChildren<Animator>();
         }
 
         private void OnDestroy()
         {
             _healthModel.OnDied -= Die;
+            _gameSessionManager.OnGameOver -= HandleGameOver;
         }
 
         private void Update()
         {
-            if (IsDead) return;
+            if (IsDead || _isPaused) return;
 
             float distance = Vector3.Distance(transform.position, _castleTarget.position);
             if (distance <= _attackDistance)
@@ -76,7 +86,6 @@ namespace Enemies
             else
             {
                 _agent.isStopped = false;
-                _agent.SetDestination(_castleTarget.position);
 
                 animator.SetBool(WALKING_PARAMETER, true);
                 animator.SetBool(ATTACKING_PARAMETER, false);
@@ -85,11 +94,14 @@ namespace Enemies
             }
         }
 
-        public void Initialize(Economy.Bank bankReference, Castle.CastleHealth castleHealthReference, Transform target)
+        public void Initialize(
+            Castle.CastleHealth castleHealthReference, 
+            Transform target, 
+            GameSession.GameSessionManager gameSessionManager)
         {
-            _bank = bankReference;
             _castleHealth = castleHealthReference;
             _castleTarget = target;
+            _gameSessionManager = gameSessionManager;
         }
 
         public void TakeDamage(float damage)
@@ -117,13 +129,20 @@ namespace Enemies
 
             OnDied?.Invoke(this);
 
-            _bank.AddMoney(_coinReward);
-
             animator.SetBool(WALKING_PARAMETER, false);
             animator.SetBool(ATTACKING_PARAMETER, false);
             animator.SetTrigger(DEATH_PARAMETER);
 
             Destroy(gameObject, _deathDestroyDelay);
+        }
+
+        private void HandleGameOver()
+        {
+            _isPaused = true;
+            _agent.isStopped = true;
+            animator.SetBool(WALKING_PARAMETER, false);
+            animator.SetBool(ATTACKING_PARAMETER, false);
+            animator.speed = 0f;
         }
     }
 }

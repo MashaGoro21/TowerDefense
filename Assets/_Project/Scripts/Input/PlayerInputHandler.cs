@@ -14,13 +14,14 @@ namespace Input
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private float _maxRaycastDistance = 500f;
 
+        private bool _isPaused;
+
         private void Update()
         {
+            if (_isPaused) return;
             if (Mouse.current == null) return;
-
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
                 return;
-
             if (!Mouse.current.leftButton.wasPressedThisFrame) return;
 
             Ray ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -38,6 +39,11 @@ namespace Input
             {
                 _towerPlacementManager.TrySelectGroundPosition(hit.point);
             }
+        }
+
+        public void StopInput()
+        {
+            _isPaused = true;
         }
     }
 }

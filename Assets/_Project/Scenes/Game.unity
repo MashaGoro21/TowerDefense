@@ -669,6 +669,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000002, y: 0.19999999, z: 1.0000002}
   m_Center: {x: 0, y: 0.099999994, z: 0}
+--- !u!1 &65655675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 65655676}
+  - component: {fileID: 65655677}
+  m_Layer: 0
+  m_Name: CastleUpgradeInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &65655676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65655675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1034116896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65655677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65655675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d135ca187190c46948f6df6da95cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.CastleUpgradeInitializer
+  _view: {fileID: 801088495}
+  _upgradeManager: {fileID: 902186279}
+  _bank: {fileID: 2066509320}
+  _castleClick: {fileID: 8135085743326250660}
 --- !u!1001 &76745160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2577,6 +2625,53 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.19999999, z: 1}
   m_Center: {x: 0, y: 0.099999994, z: 0}
+--- !u!1 &255705062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 255705063}
+  - component: {fileID: 255705064}
+  m_Layer: 0
+  m_Name: EnemyRewardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &255705063
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255705062}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1034116896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &255705064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255705062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece82f9ad2526794688c45cc650e7bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Economy.EnemyRewardManager
+  _enemySpawner: {fileID: 1902871297}
+  _bank: {fileID: 2066509320}
+  _coinReward: 20
 --- !u!1 &257589539
 GameObject:
   m_ObjectHideFlags: 0
@@ -5003,7 +5098,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 45
     m_Right: 0
-    m_Top: 88
+    m_Top: 150
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -9410,7 +9505,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 801088492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c15ca32913b8db941871e7b785d7124d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3830bfeb114f21f49939093f04b8ea39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameHUD
   _waveText: {fileID: 1231181344}
@@ -9419,9 +9514,6 @@ MonoBehaviour:
   _castleHPText: {fileID: 1196703707}
   _nextWavePanel: {fileID: 1549408409}
   _nextWaveText: {fileID: 1098114944}
-  _waveManager: {fileID: 929692554}
-  _bank: {fileID: 2066509320}
-  _castleHealth: {fileID: 8135085743326250661}
 --- !u!4 &801088494
 Transform:
   m_ObjectHideFlags: 0
@@ -9446,12 +9538,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 801088492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65e64b6e24a01d14aa700bbe3a7ccb1e, type: 3}
+  m_Script: {fileID: 11500000, guid: ff309cfa78e961e44bea55098e85acd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CastleUpgradeUI
   _panel: {fileID: 1607289778}
-  _upgradeManager: {fileID: 902186279}
-  _bank: {fileID: 2066509320}
   _healthButton: {fileID: 1548645637}
   _attackSpeedButton: {fileID: 1104884709}
   _damageButton: {fileID: 2021437087}
@@ -9468,13 +9558,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 801088492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8713b2f0eb180c643af9e97d9c105ebb, type: 3}
+  m_Script: {fileID: 11500000, guid: 340a07ac928811541bd0779a62978d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBuildUI
-  _bank: {fileID: 2066509320}
   _panel: {fileID: 1000872104}
-  _placementManager: {fileID: 257589540}
-  _buildingConfig: {fileID: 11400000, guid: f69e067ea439fd64cb115a2dbc7aa81f, type: 2}
   _towerButtonPrefab: {fileID: 8938585775753840793, guid: 99199199901154449958c015f6567126, type: 3}
   _buttonsContainer: {fileID: 468246968}
   _closePanelButton: {fileID: 1494435191}
@@ -9487,10 +9574,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 801088492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107445debf578f74092d4707f5f059a6, type: 3}
+  m_Script: {fileID: 11500000, guid: b5f9959e313dd4d4fbe32949758876a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverManager
-  _gameSessionManager: {fileID: 1272011339}
   _gameOverPanel: {fileID: 1910039296}
   _gameHUD: {fileID: 1132058327}
   _wavesText: {fileID: 748003958}
@@ -9498,8 +9584,6 @@ MonoBehaviour:
   _rewardText: {fileID: 1632845379}
   _restartButton: {fileID: 1053919302}
   _returnToMenuButton: {fileID: 617207747}
-  _gameSceneName: Game
-  _menuSceneName: MainMenu
 --- !u!1001 &811026108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11778,6 +11862,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.19999999, z: 1}
   m_Center: {x: 0, y: 0.099999994, z: 0}
+--- !u!1 &932387392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 932387393}
+  - component: {fileID: 932387394}
+  m_Layer: 0
+  m_Name: TowerBuildInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &932387393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932387392}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1034116896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &932387394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932387392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b468d6757b00d0e47be98193b988dace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.TowerBuildInitializer
+  _view: {fileID: 801088496}
+  _placementManager: {fileID: 257589540}
+  _buildingConfig: {fileID: 11400000, guid: f69e067ea439fd64cb115a2dbc7aa81f, type: 2}
+  _bank: {fileID: 2066509320}
 --- !u!1001 &971620724
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12175,7 +12307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1000872105
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12589,6 +12721,11 @@ Transform:
   - {fileID: 586406207}
   - {fileID: 1272011340}
   - {fileID: 1902871296}
+  - {fileID: 255705063}
+  - {fileID: 65655676}
+  - {fileID: 932387393}
+  - {fileID: 1684212705}
+  - {fileID: 1474719513}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1036615040
@@ -17313,9 +17450,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSession.GameSessionManager
   _castleHealth: {fileID: 8135085743326250661}
+  _castle: {fileID: 8135085743326250663}
+  _towerPlacementManager: {fileID: 257589540}
   _waveManager: {fileID: 929692554}
   _bank: {fileID: 2066509320}
   _config: {fileID: 11400000, guid: 80587f88c81a3d84a9497234c070950e, type: 2}
+  _playerInputHandler: {fileID: 586406208}
+  _castleUpgradeManager: {fileID: 902186279}
 --- !u!4 &1272011340
 Transform:
   m_ObjectHideFlags: 0
@@ -20006,6 +20147,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.29601645, z: 1}
   m_Center: {x: 0, y: 0.14800823, z: 0}
+--- !u!1 &1474719512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1474719513}
+  - component: {fileID: 1474719514}
+  m_Layer: 0
+  m_Name: GameOverInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1474719513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474719512}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1034116896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1474719514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474719512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56cdaf36526c57d4e9db858a5f165604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.GameOverInitializer
+  _view: {fileID: 801088497}
+  _gameSessionManager: {fileID: 1272011339}
+  _gameSceneName: Game
+  _menuSceneName: MainMenu
 --- !u!1001 &1475869728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22709,6 +22898,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.19999999, z: 1}
   m_Center: {x: 0, y: 0.099999994, z: 0}
+--- !u!1 &1684212704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1684212705}
+  - component: {fileID: 1684212706}
+  m_Layer: 0
+  m_Name: GameHUDInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1684212705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684212704}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1034116896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1684212706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684212704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee208870fd2f2f84c93757a10882234c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.GameHUDInitializer
+  _view: {fileID: 801088493}
+  _waveManager: {fileID: 929692554}
+  _bank: {fileID: 2066509320}
+  _castleHealth: {fileID: 8135085743326250661}
 --- !u!1001 &1687137134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26376,12 +26613,12 @@ MonoBehaviour:
   - {fileID: 159160745}
   - {fileID: 1131989686}
   - {fileID: 36966783}
-  _bank: {fileID: 2066509320}
   _enemyRegistry: {fileID: 8403830}
   _castleHealth: {fileID: 8135085743326250661}
   _castleTarget: {fileID: 8135085743326250665}
   _spawnValidationStep: 0.25
   _maxSpawnOffset: 0.1
+  _gameSessionManager: {fileID: 1272011339}
 --- !u!1 &1910039296
 GameObject:
   m_ObjectHideFlags: 0

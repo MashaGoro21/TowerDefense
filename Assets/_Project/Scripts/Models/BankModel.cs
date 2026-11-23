@@ -29,10 +29,14 @@ namespace Models
             OnMoneyChanged?.Invoke();
         }
 
-        public void SpendMoney(int amount)
+        public bool SpendMoney(int amount)
         {
+            if (amount <= 0 || !CanAfford(amount)) return false;
+
             Money -= amount;
             OnMoneyChanged?.Invoke();
+
+            return true;
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Castle
         private Enemies.Enemy _currentTarget;
         private CastleHealth _castleHealth;
         private CastleAttackModel _attackModel;
+        private bool _isPaused;
 
         private void Awake()
         {
@@ -29,7 +30,7 @@ namespace Castle
 
         private void Update()
         {
-            if (_castleHealth == null || _castleHealth.IsDestroyed) return;
+            if (_castleHealth == null || _castleHealth.IsDestroyed || _isPaused) return;
 
             FindNearestEnemy();
 
@@ -50,6 +51,12 @@ namespace Castle
         public void UpgradeDamage(float amount)
         {
             _attackModel.UpgradeDamage(amount);
+        }
+
+        public void StopAttack()
+        {
+            _isPaused = true;
+            _currentTarget = null;
         }
 
         private void FindNearestEnemy()

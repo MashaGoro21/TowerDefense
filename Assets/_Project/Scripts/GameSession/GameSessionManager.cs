@@ -14,12 +14,19 @@ namespace GameSession
         public int Reward { get; private set; }
 
         [SerializeField] private Castle.CastleHealth _castleHealth;
+        [SerializeField] private Castle.Castle _castle;
+        [SerializeField] private Towers.TowerPlacementManager _towerPlacementManager;
         [SerializeField] private Enemies.WaveManager _waveManager;
         [SerializeField] private Economy.Bank _bank;
         [SerializeField] private Config.GameOverConfig _config;
+        [SerializeField] private Input.PlayerInputHandler _playerInputHandler;
+        [SerializeField] private Castle.CastleUpgradeManager _castleUpgradeManager;
+
+        private RewardCalculator _rewardCalculator;
 
         private void Awake()
         {
+            _rewardCalculator = new RewardCalculator();
             _castleHealth.OnDestroyed += HandleGameOver;
         }
 
@@ -34,10 +41,17 @@ namespace GameSession
 
             IsGameOver = true;
 
+            _waveManager.StopWaves();
+            _castle.StopAttack();
+            _towerPlacementManager.StopAllTowers();
+            _towerPlacementManager.StopPlacement();
+            _castleUpgradeManager.StopUpgrades();
+            _playerInputHandler.StopInput();
+
             WavesCompleted = _waveManager.WavesCompleted;
             EnemiesKilled = _waveManager.TotalEnemiesKilled;
 
-            Reward = RewardCalculator.Calculate(
+            Reward = _rewardCalculator.Calculate(
                 WavesCompleted,
                 EnemiesKilled,
                 _config.MoneyPerWave,
@@ -45,9 +59,6 @@ namespace GameSession
             );
 
             _bank.AddMoney(Reward);
-
-            Time.timeScale = 0f;
-
             OnGameOver?.Invoke();
         }
     }

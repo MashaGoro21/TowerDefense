@@ -37,9 +37,9 @@ namespace Economy
             _model.AddMoney(amount);
         }
 
-        public void SpendMoney(int amount)
+        public bool SpendMoney(int amount)
         {
-            _model.SpendMoney(amount);
+            return _model.SpendMoney(amount);
         }
 
 
